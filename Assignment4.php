@@ -22,17 +22,24 @@
 	http://stackoverflow.com/questions/1356866/how-do-i-change-the-data-type-for-a-column-in-mysql
 	http://php.about.com/od/learnmysql/p/alter_table.htm
 	*/
-	/*
+	
+	//Other alterations that I decided to implement
+	//changing the date_updated and description to fit the format of the other columns
+	$db->query("Alter table Inventory change date_updated Date_Updated date");
+	$db->query("Alter table Inventory change description Description varchar(20)");
+	
 	//table code
-	http://forums.htmlhelp.com/index.php?showtopic=13686
-	*/
+	//http://forums.htmlhelp.com/index.php?showtopic=13686
+	
 	$result = $db->query("SELECT * FROM Inventory");
-	
+	$headings = mysqli_fetch_fields($result);
 	echo "<table cellpadding=10 border=1>";
-	
+	echo "<tr>";
+	echo "<td>" . $headings[1]->name . "</td>" . "<td>" . $headings[2]->name . "</td>" . "<td>" . $headings[3]->name . "</td>" . "<td>" . $headings[4]->name . "</td>" . "<td>" . $headings[5]->name . "</td>" . "<td>" . $headings[6]->name . "</td>";
+	echo "</tr>";
     while($row = $result->fetch_assoc()){
 		echo "<tr>";
-		echo "<td>" . $row['Inventory_Id'] . "</td>" . "<td>" . $row['Part_Number'] . "</td>" . "<td>" . $row['description'] . "</td>" . "<td>" . $row['Quantity'] . "</td>" . "<td>" . $row['Price'] . "</td>" . "<td>" . $row['date_updated'] . "</td>";
+		echo "<td>" . $row[$headings[1]->name] . "</td>" . "<td>" . $row[$headings[2]->name] . "</td>" . "<td>" . $row[$headings[3]->name] . "</td>" . "<td>" . $row[$headings[4]->name] . "</td>" . "<td>" . $row[$headings[5]->name] . "</td>" . "<td>" . $row[$headings[6]->name] . "</td>";
 		echo "</tr>";
 	}
 	echo "</table>";
